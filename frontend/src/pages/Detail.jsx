@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios"
-import styled from "styled-components"
-
-const StyledTextArea = styled.textarea`
-    width:100%;
-`
 
 const Detail = () => {
     let params = useParams()

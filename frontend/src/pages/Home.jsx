@@ -50,6 +50,7 @@ const Home = () => {
                         }   
                     </tbody>
                 </table>
+                <Link className="btn btn-primary" to="/question-create">add</Link>
             </div>                    
         </>
     );
