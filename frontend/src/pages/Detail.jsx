@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios"
-import "../index.scss"
 import styled from "styled-components"
 
 const StyledTextArea = styled.textarea`
@@ -11,7 +10,7 @@ const StyledTextArea = styled.textarea`
 const Detail = () => {
     let params = useParams()
     let question_id = params?.question_id
-    const apiUrl = import.meta.env.VITE_API_URL
+    const apiUrl = import.meta.env.VITE_API_URL    
 
     let [questionInfo, setQuestionInfo] = useState({})
     let [answerList, setAnswerList] = useState([])
@@ -64,21 +63,61 @@ const Detail = () => {
 
     return (
         <>
-            <div>
-                <h1>{questionInfo?.subject && questionInfo.subject}</h1>
-                <p>{questionInfo?.content && questionInfo.content}</p>
-                <ul>
-                    {answerList.map((answer)=><li key={answer.id}>{answer.content}</li>)}
-                </ul>
-                <div>{errorMessage !== "" && errorMessage}</div>
-                <StyledTextArea
-                    onChange={onNewAnswerContentChanged} 
-                    value={newAnswerContent}>
+            <div className="container">
+                {/* 질문 */}
+                <h1 className="border-bottom py-2">{questionInfo.subject}</h1>
+                <div className="card my-3">
+                    <div className="card-body">
+                        <div className="card-text" style={{whiteSpace:"preLine"}}>
+                            {questionInfo.content}
+                        </div>
+                        <div className="d-flex justify-content-end">
+                            <div className="badge bg-light text-dark p-2">
+                                {questionInfo.create_date}
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                
+                {/* 답변목록 */}
+                <div className="border-bottom my-3 py-2">
+                    {answerList.length}개의 답변이 있습니다. 
+                </div>         
+                {
+                    answerList.map((answer)=>{
+                        return(                            
+                            <div className="card my-3" key={answer.id}>
+                                <div className="card-body">
+                                    <div className="card-text" style={{whiteSpace:"preLine"}}>
+                                        {answer.content} 
+                                    </div>
+                                    <div className="d-flex justify-content-end">
+                                        <div className="badge bg-light text-dark p-2">
+                                            {answer.create_date}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        )
+                    })
 
-                </StyledTextArea>           
-                <div>
-                    <button onClick={onAnswerAddClicked}>add</button>
-                </div>                
+                }
+
+                {/* 답변등록 */}
+                <div>{errorMessage}</div>
+                <form className="my-3">
+                    <textarea rows="10" style={{width:"100%"}} onChange={onNewAnswerContentChanged} value={newAnswerContent}/>
+                    <div>
+                    <input 
+                        style={{width:"100%"}}
+                        className="btn btn-primary"
+                        type="submit" 
+                        value="add" 
+                        onClick={onAnswerAddClicked} 
+                    />
+                    </div>
+                </form>
+
             </div>
         </>
     );

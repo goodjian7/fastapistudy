@@ -23,32 +23,34 @@ const Home = () => {
     },[]);
 
     return (
-        <>
-        <div>
-            <h1>questionList</h1>
-            <ul>
-            {
-                questionList.map(
-                    (question)=>{
-                        return <li key={question.id}>
-                                    <Link to={`/detail/${question.id}`}>{question.subject}</Link>
-                               </li>
-                    }
-                )                
-            }
-            </ul>
-        </div>
-
-        <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown button
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
-        </div>
+        <>  
+            <div className="container my-3">
+                <h1 className="text-center">Question List</h1>
+                <table className="table">
+                    <thead>
+                        <tr className="table-dark">
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>작성일자</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            questionList.map((question, idx)=>{                        
+                                return(
+                                    <tr key={question.id}>
+                                        <td>{idx+1}</td>                            
+                                        <td>
+                                            <Link to={`/detail/${question.id}`}>{question.subject}</Link>
+                                        </td>
+                                        <td>{question.create_date}</td>                                    
+                                        </tr>                             
+                                );
+                            })        
+                        }   
+                    </tbody>
+                </table>
+            </div>                    
         </>
     );
 };
