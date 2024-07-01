@@ -10,6 +10,10 @@ class Question(BaseModel):
     create_date:datetime
     answers:list[Answer]=[]
 
+class QuestionList(BaseModel):
+    total:int = 0
+    question_list:list[Question] = []
+
 class QuestionCreate(BaseModel):
     subject:str
     content:str
