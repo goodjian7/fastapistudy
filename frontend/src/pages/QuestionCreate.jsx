@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { isNullOrEmptyOrSpace } from "../utils"
 import { produce} from "immer"
+import axios from "axios"
 
 
 const QuestionCreate = ()=>{
+    const apiUrl = import.meta.env.VITE_API_URL 
     let [errorMessage, setErrorMessage] = useState("")
     let [questionInfo, setQuestionInfo] = useState({subject:"", content:""})
 
@@ -30,12 +32,27 @@ const QuestionCreate = ()=>{
         if(isNullOrEmptyOrSpace(questionInfo.subject) ||
             isNullOrEmptyOrSpace(questionInfo.content)){
                 setErrorMessage("공백은 허용되지 않습니다.")
+                return
         }
 
-
-    }
-
-    
+        const sendCreateRequest = async()=>{
+            let endpoint = apiUrl+`/api/question/create`        
+            let response = await axios.post(endpoint, questionInfo)   
+            if(response.status!==204){
+                setErrorMessage("서버에서 처리되지 않았습니다")
+                return 
+            }          
+            else{
+                setErrorMessage("등록됨")
+                let newQuestionInfo=produce(questionInfo, (draft)=>{
+                    draft.subject=""
+                    draft.content=""
+                })
+                setQuestionInfo(newQuestionInfo)
+            }
+        }
+        sendCreateRequest()
+    }   
 
     return(
         <>
