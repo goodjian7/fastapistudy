@@ -13,4 +13,8 @@ const isNullOrEmptyOrSpace = (str)=>{
     return false
 }
 
-export {isNullOrEmptyOrSpace}
+const rangeFromTo = (start, end, step = 1) => {
+    return Array.from({ length: Math.ceil((end - start) / step) }, (_, i) => start + i * step);
+  };
+
+export {isNullOrEmptyOrSpace, rangeFromTo}

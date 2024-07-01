@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { produce } from "immer";
+import { rangeFromTo } from "../utils";
 
 
 
@@ -65,6 +66,51 @@ const Home = () => {
                 
                 {/* 페이징 처리 시작 */}
                 <ul className="pagination justify-content-center">
+                    {/* 이전버튼 */}
+                    <li className={classNames("page-item", {disabled:pageInfo.pageIndex<=0})}>
+                        <button 
+                            className="page-link"
+                            onClick={()=>{
+                              setPageInfo(produce(pageInfo,(draft)=>{draft.pageIndex-=1}))  
+                            }}
+                        >
+                            이전
+                        </button>
+                    </li>
+
+                    {/* 페이지버튼 */}
+                    {
+                        rangeFromTo(-2,3,1).map((idx)=>{                            
+                            let numBtn = pageInfo.pageIndex + idx
+                            if(numBtn >= 0 && numBtn <= pageInfo.pageCount-1){
+                                return(
+                                    <li key= {idx }className={classNames("page-item", {active:numBtn===pageInfo.pageIndex})}>
+                                        <button
+                                            className="page-link"
+                                            onClick={()=>{
+                                                setPageInfo({...pageInfo, pageIndex:numBtn})
+                                            }}>
+                                            {numBtn}
+                                        </button>
+                                    </li>
+                                )
+                            }
+                        })
+
+                    }                    
+                    
+                    {/* 다음버튼 */}
+                    <li className={classNames("page-item", {disabled:pageInfo.pageIndex>=pageInfo.pageCount-1})}>
+                        <button 
+                            className="page-link"
+                            onClick={()=>{
+                              setPageInfo(produce(pageInfo,(draft)=>{draft.pageIndex+=1}))  
+                            }}
+                        >
+                            다음
+                        </button>
+
+                    </li>
                 </ul>
                 {/* 페이징 처리 끝 */}
 
