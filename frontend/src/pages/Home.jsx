@@ -24,8 +24,7 @@ const Home = () => {
 
     return (
         <>  
-            <div className="container my-3">
-                <h1 className="text-center">Question List</h1>
+            <div className="container my-3">                
                 <table className="table">
                     <thead>
                         <tr className="table-dark">
